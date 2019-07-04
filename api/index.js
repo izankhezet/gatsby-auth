@@ -3,8 +3,16 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true, }));
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+})
 
-app.get('/', (req, res) => {
+app.get('/', (req, res) => res.json('OK doki'))
+
+app.post('/', (req, res) => {
     const  { body } = req, errors = [];
     console.log(body);
     
