@@ -1,6 +1,8 @@
-import { Link } from "gatsby"
+import { Link, navigate } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
+
+import { isLoggedIn, logout, getUser } from '../services/auth';
 
 const Header = ({ siteTitle }) => (
   <header
@@ -26,8 +28,20 @@ const Header = ({ siteTitle }) => (
         >
           {siteTitle}
         </Link>&nbsp;
-        <Link to="/app/login">Go to page 2</Link>&nbsp;
-        <Link to="/app/profile/">Dashboard</Link>
+        {
+          isLoggedIn() 
+            ? (
+                <>
+                  <Link to="/app/profile/">{getUser().name}</Link>{` `}
+                  <a href='#' onClick={() => {
+                    logout(() => {
+                      navigate('/app/login')
+                    })
+                  }}>Logout</a>
+                </>)
+            : <Link to="/app/login">Login</Link>
+        }
+        
       </h1>
     </div>
   </header>
