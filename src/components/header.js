@@ -25,7 +25,9 @@ const Header = ({ siteTitle }) => (
           }}
         >
           {siteTitle}
-        </Link>
+        </Link>&nbsp;
+        <Link to="/page-2/">Go to page 2</Link>&nbsp;
+        <Link to="/profile/">Dashboard</Link>
       </h1>
     </div>
   </header>
