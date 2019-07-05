@@ -1,4 +1,8 @@
 module.exports = {
+  proxy: {
+    prefix: "http://127.0.0.1:8000/",
+    url: "http://127.0.0.1:3000/",
+  },
   siteMetadata: {
     title: `Gatsby Default Starter`,
     description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,

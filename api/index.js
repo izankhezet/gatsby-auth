@@ -1,20 +1,21 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true, }));
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.setHeader('Access-Control-Allow-Headers', '*');
     next();
-})
+});
+app.use(bodyParser.urlencoded({ extended: false, }));
+app.use(bodyParser.json());
 
-app.get('/', (req, res) => res.json('OK doki'))
+//app.get('/', (req, res) => res.json('OK doki'))
 
-app.post('/', (req, res) => {
-    const  { body } = req, errors = [];
-    console.log(body);
+app.post('/auth', (req, res) => {
+    const  { body, } = req;
+    console.log('body ===------>', body);
     
     if( 
         ( !('username' in body) && body.username !== 'john' ) ||

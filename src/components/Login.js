@@ -1,5 +1,5 @@
 import React, { useState} from "react"
-import { Link, navigate } from "gatsby"
+import { Link, navigate, useStaticQuery } from "gatsby"
 
 import SEO from "./seo"
 
@@ -7,12 +7,29 @@ import { isLoggedIn, handleLogin } from '../services/auth'
 
 const LoginPage = () => {
   const [state, setState] = useState({
-    email: 'johnny@example.org', password: 'pass', username: 'john'
+    username: null, 
+    password: 'pass', 
+    username: 'john',
   });
-  const _onSubmit = e => {
+  const [ui, setUi] = useState({
+    message: null,
+    loading: false,
+  });
+  const _onChange = ({ target }) => setState(prevState => ({...prevState, [target.name]: target.value}));
+  const _onSubmit = async e => {
     e.preventDefault();
-    handleLogin(state);
-    navigate('/app/profile');
+    console.log(state);
+    setUi({loading: true});
+    try {
+      const data = await handleLogin(state);
+      console.log("response fetching");
+      
+      navigate('/app/profile');
+      setUi(prevS => ({ ...prevS, loading: false, }))
+    } catch (error) {
+      alert(error.message)
+      setUi(prevS => ({ ...prevS, message: error.message, loading: false, }))
+    }
   }
   if ( isLoggedIn() ) navigate('/app/profile');
   return (
@@ -20,15 +37,22 @@ const LoginPage = () => {
       <SEO title="Page two" />
       <h1>Login</h1>
       <form action="//127.0.0.1:3000/api" onSubmit={_onSubmit}>
+        { ui.message }
         <label htmlFor="email">
-          Email: 
-          <input type="text" name="email" id="email"/>
-        </label>
+          Username: 
+          <input onChange={_onChange} type="text" name="username" id="email"/>
+        </label><br/>  
         <label htmlFor="password">
-          Email: 
-          <input type="password" name="password" id="password"/>
-        </label>
-        <button type="submit">Log me in</button>
+          Password: 
+          <input type="password" name="password" id="password" onChange={_onChange} />
+        </label><br/>
+        <button type="submit">
+          {
+            !ui.loading 
+              ? 'Log me in'
+              : 'Loading ..'
+          }
+        </button>
       </form>   
       <Link to="/">Go back to the homepage</Link>
     </>

@@ -15,15 +15,31 @@ export const getUser = () =>
 const setUser = user =>
   window.localStorage.setItem("gatsbyUser", JSON.stringify(user))
 // handle login system
-export const handleLogin = ({ username, password }) => {
-  if (username === `john` && password === `pass`) {
-    return setUser({
-      username: `john`,
-      name: `Johnny`,
-      email: `johnny@example.org`,
-    })
+export const handleLogin = async ({ username, password }) => {
+  if (isBrowser) {
+    try {
+      let _res = await fetch('http://127.0.0.1:3000/auth', {
+        method: 'POST',
+        body: JSON.stringify({ username, password }),
+        /*headers: {
+          'ContentType': 'application/json'
+        }*/
+      });
+      let data = await _res.json();
+      console.log('response of fetching', data);
+      
+      if( data.status === 'OK' ) {
+        setUser({
+          username: `john`,
+          name: `Johnny`,
+          email: `johnny@example.org`,
+        });
+        return data;
+      } else throw new Error(data.error[0]);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
-  return false
 }
 // check if user is loggedin
 export const isLoggedIn = () => {
