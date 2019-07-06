@@ -1,26 +1,25 @@
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.setHeader('Access-Control-Allow-Headers', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST');
+    res.setHeader('Access-Control-Allow-Headers', 'content-type');
     next();
 });
-app.use(bodyParser.urlencoded({ extended: false, }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
-//app.get('/', (req, res) => res.json('OK doki'))
+//app.get('/', (req, res) => res.json(req.body))
 
 app.post('/auth', (req, res) => {
     const  { body, } = req;
-    console.log('body ===------>', body);
-    
+    // I hard code the process of verification in database 
+    // if the credentials are successed
     if( 
-        ( !('username' in body) && body.username !== 'john' ) ||
-        ( !('password' in body) && body.password !== 'pass' )
-    ) {
+        ( !('username' in body) || body.username !== 'john' ) ||
+        ( !('password' in body) || body.password !== 'pass' )
+        ) {
         return res.json({
             status: 'NO',
             error: [
@@ -36,6 +35,7 @@ app.post('/auth', (req, res) => {
         },
     })
 });
+
 
 app.listen(3000, err => {
     console.log(`server runing on PORT: 3000`);
