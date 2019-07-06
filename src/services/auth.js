@@ -20,7 +20,7 @@ export const handleLogin = async ({ username, password }) => {
   if (isBrowser) {
     console.info(`username ${username} and pass: ${password}`)
     try {
-      let _res = await fetch('http://127.0.0.1:3000/auth', {
+      let _res = await fetch('http://127.0.0.1:4444/auth', {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         mode: "cors", // no-cors, cors, *same-origin
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached

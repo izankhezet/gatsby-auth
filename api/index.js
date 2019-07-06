@@ -12,6 +12,23 @@ app.use(express.json());
 
 //app.get('/', (req, res) => res.json(req.body))
 
+app.post('/auth/:token', (req, res) => {
+    let { params } = req;
+    if( !'token' in params || params.token !== 'user-token' || params.token !== 'new-user-token' ) {
+        return {
+            status: 'OK',
+            user: {
+                username: 'siemah',
+                token: 'new-user-token',
+            },    
+        }
+    }
+    res.json({
+        status: 'NO',
+        errors: ['Your credential are failed']
+    })
+})
+
 app.post('/auth', (req, res) => {
     const  { body, } = req;
     // I hard code the process of verification in database 
@@ -37,6 +54,6 @@ app.post('/auth', (req, res) => {
 });
 
 
-app.listen(3000, err => {
-    console.log(`server runing on PORT: 3000`);
+app.listen(4444, err => {
+    console.log(`server runing on PORT: 4444`);
 })
