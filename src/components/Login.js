@@ -7,7 +7,6 @@ import { isLoggedIn, handleLogin } from '../services/auth'
 
 const LoginPage = () => {
   const [state, setState] = useState({
-    username: null, 
     password: 'pass', 
     username: 'john',
   });
@@ -36,7 +35,7 @@ const LoginPage = () => {
     <>
       <SEO title="Page two" />
       <h1>Login</h1>
-      <form action="//127.0.0.1:3000/api" onSubmit={_onSubmit}>
+      <form action="http://127.0.0.1:3000/auth" onSubmit={_onSubmit} method='POST'>
         { ui.message }
         <label htmlFor="email">
           Username: 

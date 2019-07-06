@@ -1,3 +1,4 @@
+import Axios from 'axios';
 /**
  * @package dayenio.ml
  * @author izankhezet
@@ -17,15 +18,22 @@ const setUser = user =>
 // handle login system
 export const handleLogin = async ({ username, password }) => {
   if (isBrowser) {
+    console.info(`username ${username} and pass: ${password}`)
     try {
-      let _res = await fetch('http://127.0.0.1:3000/auth', {
-        method: 'POST',
-        body: JSON.stringify({ username, password }),
+      let _res = await Axios.post('http://127.0.0.1:3000/auth', {
+        //method: "POST", // *GET, POST, PUT, DELETE, etc.
+        //mode: "cors", // no-cors, cors, *same-origin
+        //cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        //credentials: "same-origin", // include, *same-origin, omit
         /*headers: {
-          'ContentType': 'application/json'
-        }*/
+            "Content-Type": "application/json; charset=utf-8",
+            //"Content-Type": "application/x-www-form-urlencoded",
+        },*/
+        //redirect: "follow", // manual, *follow, error
+        //referrer: "no-referrer", // no-referrer, *client
+        /*data: */username, password ,
       });
-      let data = await _res.json();
+      let { data } = _res
       console.log('response of fetching', data);
       
       if( data.status === 'OK' ) {
