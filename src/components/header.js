@@ -29,7 +29,7 @@ const Header = ({ siteTitle }) => (
           {siteTitle}
         </Link>&nbsp;
         {
-          isLoggedIn() 
+          isLoggedIn()
             ? (
                 <>
                   <Link to="/app/profile/">{getUser().name}</Link>{` `}

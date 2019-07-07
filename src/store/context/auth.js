@@ -5,6 +5,6 @@ export const authState = {
   email: null,
 };
 // auth context
-const AuthContext = createContext(authState);
+export const AuthContext = createContext(authState);
 // Provider component
 export const { Provider } = AuthContext;

@@ -1,13 +1,18 @@
-import React, { useState, useEffect, } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+
 import { checkingAuth, setUser, } from '../services/auth';
+import { AuthContext } from '../store/context/auth';
 
 export const Splash = ({children}) =>  {
   const [loaded, setLoaded] = useState(false);
+  const { setAuth } = useContext(AuthContext);
+
   useEffect(() => {
     const fetch = async () => {
       let { data } = await checkingAuth();
       if( data && data.status === 'OK' ) {
-          setUser(data.user);
+          setUser(data.user);// save loggedin user details in cookies or localStorage
+          setAuth(data.user);// update the context of auth by the loggedin user details
       }
       setLoaded(true);
     }
