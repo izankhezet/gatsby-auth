@@ -12,16 +12,17 @@ app.use(express.json());
 
 //app.get('/', (req, res) => res.json(req.body))
 
-app.post('/auth/:token', (req, res) => {
+app.get('/auth/:token', (req, res) => {
     let { params } = req;
+    console.log('params', params);
     if( !'token' in params || params.token !== 'user-token' || params.token !== 'new-user-token' ) {
-        return {
+        return res.json({
             status: 'OK',
             user: {
                 username: 'siemah',
-                token: 'new-user-token',
-            },    
-        }
+                token: params.token === 'user-token' ? 'new-user-token' : 'user-token',
+            },
+        })
     }
     res.json({
         status: 'NO',
@@ -31,9 +32,9 @@ app.post('/auth/:token', (req, res) => {
 
 app.post('/auth', (req, res) => {
     const  { body, } = req;
-    // I hard code the process of verification in database 
+    // I hard code the process of verification in database
     // if the credentials are successed
-    if( 
+    if(
         ( !('username' in body) || body.username !== 'john' ) ||
         ( !('password' in body) || body.password !== 'pass' )
         ) {
