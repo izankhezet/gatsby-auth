@@ -6,9 +6,30 @@
  */
 
 const React = require('react');
+const Axios = require('axios');
+const { checkingAuth, setUser } = require('./src/services/auth')
+const { useState, useEffect } = React;
 
-const Splash = (props) => {
+const Splash = ({children}) =>  {
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    const fetch = async () => {
+      console.log('checking ..');
+      let { data } = await checkingAuth();
+      if( data && data.status === 'OK' ) {
+          setUser(data.user);
+      }
+      setLoaded(true);
+    }
+    fetch()
+  }, []);
+
+  if(loaded) {
     return (
+      <>{ children }</>
+    )
+  }
+  return (
         <div style={{
             position:'fixed',
             top: 0,
