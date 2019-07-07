@@ -12,8 +12,8 @@ export const getUser = () =>
   isBrowser() && window.localStorage.getItem("gatsbyUser")
     ? JSON.parse(window.localStorage.getItem("gatsbyUser"))
     : {}
-// set/update the current loggedin user 
-const setUser = user =>
+// set/update the current loggedin user
+export const setUser = user =>
   window.localStorage.setItem("gatsbyUser", JSON.stringify(user))
 // handle login system
 export const handleLogin = async ({ username, password }) => {
@@ -35,13 +35,9 @@ export const handleLogin = async ({ username, password }) => {
       });
       let data = await _res.json()
       console.log('response of fetching', data);
-      
+
       if( data.status === 'OK' ) {
-        setUser({
-          username: `john`,
-          name: `Johnny`,
-          email: `johnny@example.org`,
-        });
+        setUser(data.user);
         return data;
       } else throw new Error(data.error[0]);
     } catch (error) {
@@ -53,6 +49,16 @@ export const handleLogin = async ({ username, password }) => {
 export const isLoggedIn = () => {
   const user = getUser()
   return !!user.username
+}
+// verify login
+export const checkingAuth = async () => {
+  const user = getUser();
+  if(!!user.token) {
+    return await Axios.get(`http://127.0.0.1:4444/auth/${user.token}`)
+  }else {
+    alert('nope', user.username)
+    return false;
+  }
 }
 // logout current user
 export const logout = callback => {

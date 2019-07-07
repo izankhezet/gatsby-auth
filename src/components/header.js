@@ -41,7 +41,7 @@ const Header = ({ siteTitle }) => (
                 </>)
             : <Link to="/app/login">Login</Link>
         }
-        
+
       </h1>
     </div>
   </header>

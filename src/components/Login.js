@@ -7,7 +7,7 @@ import { isLoggedIn, handleLogin } from '../services/auth'
 
 const LoginPage = () => {
   const [state, setState] = useState({
-    password: 'pass', 
+    password: 'pass',
     username: 'john',
   });
   const [ui, setUi] = useState({
@@ -21,8 +21,6 @@ const LoginPage = () => {
     setUi({loading: true});
     try {
       const data = await handleLogin(state);
-      console.log("response fetching");
-      
       navigate('/app/profile');
       setUi(prevS => ({ ...prevS, loading: false, }))
     } catch (error) {
@@ -38,24 +36,24 @@ const LoginPage = () => {
       <form action="http://127.0.0.1:3000/auth" onSubmit={_onSubmit} method='POST'>
         { ui.message }
         <label htmlFor="email">
-          Username: 
+          Username:
           <input onChange={_onChange} type="text" name="username" id="email"/>
-        </label><br/>  
+        </label><br/>
         <label htmlFor="password">
-          Password: 
+          Password:
           <input type="password" name="password" id="password" onChange={_onChange} />
         </label><br/>
         <button type="submit">
           {
-            !ui.loading 
+            !ui.loading
               ? 'Log me in'
               : 'Loading ..'
           }
         </button>
-      </form>   
+      </form>
       <Link to="/">Go back to the homepage</Link>
     </>
   )
-} 
+}
 
 export default LoginPage
