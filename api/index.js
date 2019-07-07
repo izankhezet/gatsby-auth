@@ -20,6 +20,7 @@ app.get('/auth/:token', (req, res) => {
             status: 'OK',
             user: {
                 username: 'siemah',
+                email: 'user@email.extension',
                 token: params.token === 'user-token' ? 'new-user-token' : 'user-token',
             },
         })
