@@ -32,7 +32,7 @@ const Header = ({ siteTitle }) => (
           isLoggedIn()
             ? (
                 <>
-                  <Link to="/app/profile/">{getUser().name}</Link>{` `}
+                  <Link to="/app/profile/">{getUser().username}</Link>{` `}
                   <a href='#' onClick={() => {
                     logout(() => {
                       navigate('/app/login')

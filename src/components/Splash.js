@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { checkingAuth, setUser, } from '../services/auth';
 import { AuthContext } from '../store/context/auth';
 
-export const Splash = ({children}) =>  {
+const Splash = ({children}) =>  {
   const [loaded, setLoaded] = useState(false);
   const { setAuth } = useContext(AuthContext);
 
@@ -38,3 +38,4 @@ export const Splash = ({children}) =>  {
         </div>
     )
 }
+export default Splash;
