@@ -13,8 +13,10 @@ export const getUser = () =>
     ? JSON.parse(window.localStorage.getItem("gatsbyUser"))
     : {}
 // set/update the current loggedin user
-export const setUser = user =>
+export const setUser = user => {
+  document.cookie = `token=${user.token}`
   window.localStorage.setItem("gatsbyUser", JSON.stringify(user))
+}
 // handle login system
 export const handleLogin = async ({ username, password }) => {
   if (isBrowser) {
