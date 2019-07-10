@@ -49,7 +49,7 @@ app.post('/auth/session', (req, res) => {
   }
   req.session.user = 'john';
   res.json({
-    status: 'NO',
+    status: 'OK',
     authMethod: 'session',
   })
 });
@@ -96,7 +96,35 @@ app.post('/auth', (req, res) => {
         },
     })
 });
-
+// private route only for loggedin users using session
+app.get('/posts', isLogged, (req, res) => {
+  console.log(req.session);
+  res.json({
+    status: 'OK',
+    posts: [
+      {
+        id: 1,
+        title: 'Posit 1',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in '
+      },
+      {
+        id: 2,
+        title: 'Title of the 2nd post',
+        content: 'reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+      }
+    ]
+  })
+})
+function isLogged(req, res, next) {
+  console.log('checking if loggedin', req.session.user);
+  if(req.session.user) {
+    return next();
+  }
+  res.status(403).json({
+    status: 'NO',
+    errors: ['Unothorised section']
+  })
+}
 
 app.listen(4444, err => {
     console.log(`server runing on PORT: 4444`);

@@ -33,7 +33,7 @@ const LoginPage = () => {
         body: JSON.stringify(state),
       }).then(r => r.json());
       console.log(data);
-      //navigate('/app/profile');
+      if(data.status === 'OK')navigate('/app/profile');
       setUi(prevS => ({ ...prevS, loading: false, }))
     } catch (error) {
       alert(error.message)
