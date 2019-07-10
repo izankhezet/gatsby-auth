@@ -9,12 +9,19 @@ const Splash = ({children}) =>  {
 
   useEffect(() => {
     const fetch = async () => {
-      let { data } = await checkingAuth();
-      if( data && data.status === 'OK' ) {
-          setUser(data.user);// save loggedin user details in cookies or localStorage
-          setAuth(data.user);// update the context of auth by the loggedin user details
+      try {
+        let { data } = await checkingAuth();
+        console.log(data);
+        if( data && data.status === 'OK' ) {
+            setUser(data.user);// save loggedin user details in cookies or localStorage
+            setAuth(data.user);// update the context of auth by the loggedin user details
+        }
+      } catch (e) {
+        setUser({});
+        alert(e.message)
+      } finally {
+        setLoaded(true);
       }
-      setLoaded(true);
     }
     fetch()
   }, []);
