@@ -20,8 +20,20 @@ const LoginPage = () => {
     console.log(state);
     setUi({loading: true});
     try {
-      const data = await handleLogin(state);
-      navigate('/app/profile');
+      const data = await  fetch('http://127.0.0.1:4444/auth/session', {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "include", // include, *same-origin, omit
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            //"Content-Type": "application/x-www-form-urlencoded",
+        },
+        redirect: "follow", // manual, *follow, error
+        referrer: "no-referrer", // no-referrer, *client
+        body: JSON.stringify(state),
+      }).then(r => r.json());
+      console.log(data);
+      //navigate('/app/profile');
       setUi(prevS => ({ ...prevS, loading: false, }))
     } catch (error) {
       alert(error.message)

@@ -24,9 +24,8 @@ export const handleLogin = async ({ username, password }) => {
     try {
       let _res = await fetch('http://127.0.0.1:4444/auth', {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
-        mode: "cors", // no-cors, cors, *same-origin
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: "same-origin", // include, *same-origin, omit
+        credentials: "include", // include, *same-origin, omit
         headers: {
             "Content-Type": "application/json; charset=utf-8",
             //"Content-Type": "application/x-www-form-urlencoded",
@@ -36,8 +35,7 @@ export const handleLogin = async ({ username, password }) => {
         body: JSON.stringify({ username, password }),
       });
       let data = await _res.json()
-      console.log('response of fetching', data);
-
+      console.log('response of fetching', data.status);
       if( data.status === 'OK' ) {
         setUser(data.user);
         return data;
