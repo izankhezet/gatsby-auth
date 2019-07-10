@@ -10,7 +10,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "express-session": "^1.16.2"
-  }
+  "dependencies": {}
 }
