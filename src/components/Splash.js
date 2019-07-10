@@ -11,15 +11,14 @@ const Splash = ({children}) =>  {
     const fetch = async () => {
       try {
         let { data } = await checkingAuth();
-        console.log(data);
         if( data && data.status === 'OK' ) {
             setUser(data.user);// save loggedin user details in cookies or localStorage
             setAuth(data.user);// update the context of auth by the loggedin user details
-        }
+        } else alert('Network Failed :(');
+        setLoaded(true);
       } catch (e) {
         setUser({});
-        alert(e.message)
-      } finally {
+        alert("fired an error ", e.message);
         setLoaded(true);
       }
     }
