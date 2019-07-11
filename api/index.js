@@ -4,7 +4,9 @@ const app = express();
 
 app.use(session({
   secret: 'yoursecret',
-  httpOnly: false,
+  httpOnly: true,
+  resave: false,
+  saveUninitialized: true,
   cookie: {
     path: '/',
     maxAge: 1000 * 60 * 24 // 24 hours
