@@ -9,7 +9,7 @@ const IndexPage = () => {
     data: [],
     message: null,
   });
-  
+
   const onClick = async () => {
     try {
       let res = await await fetch('http://127.0.0.1:4444/posts', {
@@ -25,6 +25,7 @@ const IndexPage = () => {
         referrer: "no-referrer", // no-referrer, *client
       })
       let data = await res.json();
+      console.log('--------------------');
       console.log(data);
       if(data.status==='OK') {
         setPosts({data: data.posts})
@@ -40,12 +41,14 @@ const IndexPage = () => {
       <h1>Hi people</h1>
       <button onClick={onClick}>load post</button>
       {
-        posts.data.map(({id, title, content}) => (
-          <li key={id}>
-            <h4>{title}</h4>
-            <p>{content}</p>
-          </li>
-        ))
+        posts.message
+         ? <h4>{posts.message}</h4>
+         : posts.data.map(({id, title, content}) => (
+            <li key={id}>
+              <h4>{title}</h4>
+              <p>{content}</p>
+            </li>
+          ))
       }
       <p>Welcome to your new Gatsby site.</p>
       <p>Now go build something great.</p>
