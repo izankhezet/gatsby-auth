@@ -52,13 +52,26 @@ app.post('/auth/session', (req, res) => {
   req.session.user = 'john';
   res.json({
     status: 'OK',
+    user: {
+        username: 'siemah',
+        email: 'user@email.extension',
+        token: 'new-user-token',
+    },
     authMethod: 'session',
   })
 });
 // token verification and generate a new token for lloggedin user
 app.get('/auth/:token', (req, res) => {
     let { params } = req;
-    console.log('params', params);
+    // if user has session then the current user is loggedin
+    if(req.session.user) return res.json({
+      status: 'OK',
+      user: {
+          username: 'siemah',
+          email: 'user@email.extension',
+          token: params.token === 'user-token' ? 'new-user-token' : 'user-token',
+      },
+    })
     if( !'token' in params || params.token !== 'user-token' || params.token !== 'new-user-token' ) {
         return res.json({
             status: 'OK',

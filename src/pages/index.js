@@ -25,8 +25,6 @@ const IndexPage = () => {
         referrer: "no-referrer", // no-referrer, *client
       })
       let data = await res.json();
-      console.log('--------------------');
-      console.log(data);
       if(data.status==='OK') {
         setPosts({data: data.posts})
       }

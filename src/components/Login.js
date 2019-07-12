@@ -3,7 +3,7 @@ import { Link, navigate, useStaticQuery } from "gatsby"
 
 import SEO from "./seo"
 
-import { isLoggedIn, handleLogin } from '../services/auth'
+import { isLoggedIn, handleLogin, setUser } from '../services/auth'
 
 const LoginPage = () => {
   const [state, setState] = useState({
@@ -32,9 +32,13 @@ const LoginPage = () => {
         referrer: "no-referrer", // no-referrer, *client
         body: JSON.stringify(state),
       }).then(r => r.json());
+      console.log('____________');
       console.log(data);
-      if(data.status === 'OK')navigate('/app/profile');
-      setUi(prevS => ({ ...prevS, loading: false, }))
+      if(data.status === 'OK') {
+        setUser(data.user);
+        setUi(prevS => ({ ...prevS, loading: false, }))
+        navigate('/app/profile');
+      }
     } catch (error) {
       alert(error.message)
       setUi(prevS => ({ ...prevS, message: error.message, loading: false, }))
