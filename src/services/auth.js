@@ -48,7 +48,7 @@ export const handleLogin = async ({ username, password }) => {
 // check if user is loggedin
 export const isLoggedIn = () => {
   const user = getUser()
-  return !!user.username
+  return !!user.token
 }
 // verify login
 export const checkingAuth = async () => {
