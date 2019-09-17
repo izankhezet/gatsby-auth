@@ -35,11 +35,11 @@ const Header = ({ siteTitle }) => (
                   <Link to="/app/profile/">{getUser().user_display_name}</Link>{` `}
                   <a href='#' onClick={() => {
                     logout(() => {
-                      navigate('/app/login')
+                      navigate('/app/wplogin')
                     })
                   }}>Logout</a>
                 </>)
-            : <Link to="/app/login">Login</Link>
+            : <Link to="/app/wplogin">Login</Link>
         }
 
       </h1>
