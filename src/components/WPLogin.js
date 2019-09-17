@@ -3,7 +3,7 @@ import { Link, navigate, useStaticQuery } from "gatsby"
 
 import SEO from "./seo"
 
-import { isLoggedIn, handleLogin, setUser } from '../services/auth'
+import { isLoggedIn, setUser } from '../services/auth'
 
 const LoginPage = () => {
   const [state, setState] = useState({
@@ -19,25 +19,23 @@ const LoginPage = () => {
     e.preventDefault();
     setUi({loading: true});
     try {
-      const data = await  fetch('https://api.aalladine.com/wp-json/jwt-auth/v1/token', {
+      const _res = await  fetch('https://api.aalladine.com/wp-json/jwt-auth/v1/token', {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: "include", // include, *same-origin, omit
         headers: {
             "Content-Type": "application/json; charset=utf-8",
             //"Content-Type": "application/x-www-form-urlencoded",
         },
-        redirect: "follow", // manual, *follow, error
-        referrer: "no-referrer", // no-referrer, *client
         body: JSON.stringify(state),
-      }).then(r => r.json());
-      console.log('____________');
-      console.log(data);
-      // if(data.status === 'OK') {
-      //   setUser(data.user);
-      //   setUi(prevS => ({ ...prevS, loading: false, }))
-      //   navigate('/app/profile');
-      // }
+      });
+      const _data = await _res.json();
+      if(_res.status === 200) {
+        setUser(_data);
+        setUi(prevS => ({ ...prevS, loading: false, }))
+        return navigate('/app/profile');
+      } 
+      else if(_data.code === '[jwt_auth] ip_blocked')
+        setUi(prevS => ({ ...prevS, message: _data.message, loading: false, }))
+      else setUi(prevS => ({ ...prevS, message: 'Credentials incorrect', loading: false, }))
     } catch (error) {
       alert(error.message)
       setUi(prevS => ({ ...prevS, message: error.message, loading: false, }))
