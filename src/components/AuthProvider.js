@@ -10,7 +10,8 @@ export const AuthProvider = ({ children }) => {
       ...auth,
       setAuth,
     }}>
-      <Splash>{ children }</Splash>
+      {/* <Splash>{ children }</Splash> */}
+      {children}
     </Provider>
   )
 }
