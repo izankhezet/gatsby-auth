@@ -27,8 +27,8 @@ export const handleLogin = async ({ username, password }) => {
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
         credentials: "include", // include, *same-origin, omit
         headers: {
-            "Content-Type": "application/json; charset=utf-8",
-            //"Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/json; charset=utf-8",
+          //"Content-Type": "application/x-www-form-urlencoded",
         },
         redirect: "follow", // manual, *follow, error
         referrer: "no-referrer", // no-referrer, *client
@@ -36,7 +36,7 @@ export const handleLogin = async ({ username, password }) => {
       });
       let data = await _res.json()
       console.log('response of fetching', data.status);
-      if( data.status === 'OK' ) {
+      if (data.status === 'OK') {
         setUser(data.user);
         return data;
       } else throw new Error(data.error[0]);
@@ -53,13 +53,32 @@ export const isLoggedIn = () => {
 // verify login
 export const checkingAuth = async () => {
   const user = getUser();
-  if(!!user.token) {
+  if (!!user.token) {
     return await Axios.get(`http://127.0.0.1:4444/auth/${user.token}`)
-  }else {
+  } else {
     alert('nope', user.username)
     return false;
   }
 }
+// verify wp jwt token if is valide
+export const checkingWPAuth = async () => {
+  const user = getUser();
+  let _res, _json;
+  if (!!user.token) {
+    // send a request 2 backend endpoint 2 verify if the user token is valide
+    _res = await fetch(`https://api.aalladine.com/wp-json/jwt-auth/v1/token/validate`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      }
+    });
+    _json = await _res.json();
+    if(_json.data.status === 200) 
+      return true;
+    else return false;
+  }
+  return false;
+};
 // logout current user
 export const logout = callback => {
   setUser({})
