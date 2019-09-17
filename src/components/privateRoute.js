@@ -7,7 +7,7 @@ export default function PrivateRoute({ component: Component, location, ...rest})
   useEffect(() => {
     let noOnLoginPage = location.pathname !== `/app/login`
     if (!isLoggedIn() && noOnLoginPage) {
-      navigate("/app/login");
+      navigate("/app/wplogin");
       //return null
     }
   }, []);
