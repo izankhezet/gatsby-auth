@@ -7,7 +7,7 @@ export default function ProfilePage() {
   const onFetchMoreDetails = async () => {
     try {
       let { id, token } = getUser();
-      let _res = await fetch(`https://api.aalladine.com/wp-json/wp/v2/user/${id}`, {
+      let _res = await fetch(`https://api.aalladine.com/wp-json/wp/v2/users/me`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
